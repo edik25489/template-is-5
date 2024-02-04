@@ -47,4 +47,19 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        if ($request->is('admin') || $request->is('admin/*')) {
+            return redirect()->guest('/admin/login');
+        }
+        if ($request->is('manager') || $request->is('manager/*')) {
+            return redirect()->guest('/manager/login');
+        }
+
+        return redirect()->guest(route('loginUser'));
+    }
 }

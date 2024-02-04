@@ -66,4 +66,34 @@ Route::middleware('auth:manager')->group(function (){
     Route::get('/manager/product',[ProductController::class,'index'])->name('managerProduct');
     Route::get('/manager/buyer',[CartController::class,'buyer'])->name('managerBuyer');
     Route::get('/manager/comment/{product}',[CommentController::class,'show'])->name('managerComment');
+
+    // функции с категориями
+    Route::post('/manager/category/add',[CategoryController::class,'create'])->name('categoryCreate');
+    Route::get('/manager/category/delete/{category}',[CategoryController::class,'delete'])->name('categoryDelete');
+    Route::post('/manager/category/edit/{category}',[CategoryController::class,'edit'])->name('categoryEdit');
+
+    // функции с продуктами
+    Route::post('/manager/product/add',[ProductController::class,'create'])->name('productAdd');
+    Route::get('/manager/product/delete/{product}',[ProductController::class,'delete'])->name('productDelete');
+    Route::post('/manager/product/edit/{product}',[ProductController::class,'edit'])->name('productEdit');
+
+    // функции с заявками на покупки
+
+    // функции с комментариями
+    Route::get('/manager/comment/{product}/delete',[CommentController::class,'delete'])->name('commentDelete');
+});
+
+Route::middleware('auth:admin')->group(function (){
+    Route::post('/admin/logout',[AdminController::class,'logout'])->name('adminLogout');
+
+    // страницы
+    Route::get('/admin/users',[AdminController::class,'users'])->name('adminUsers');
+    Route::get('/admin/managers',[AdminController::class,'managers'])->name('adminManagers');
+
+    // функции с менеджерами
+    Route::post('/admin/manager/add',[AdminController::class,'createManager'])->name('createManager');
+    Route::get('/admin/manager/{manager}/delete',[AdminController::class,'deleteManager'])->name('deleteManager');
+
+    // функции с пользователями
+    Route::get('/admin/user/{user}/delete',[AdminController::class,'deleteUser'])->name('deleteUser');
 });
