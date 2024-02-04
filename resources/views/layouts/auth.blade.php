@@ -9,6 +9,8 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body>
-@yield('content')
+<div class="d-flex justify-content-center align-items-center">
+    @yield('content')
+</div>
 </body>
 </html>
