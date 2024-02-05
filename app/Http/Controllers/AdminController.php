@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Manager;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,11 +12,15 @@ class AdminController extends Controller
 {
     public function managers(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('adminManager');
+        return view('adminManager')->with([
+            'managers'=>Manager::all(),
+        ]);
     }
     public function users(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('adminUsers');
+        return view('adminUsers')->with([
+            'users'=>User::all(),
+        ]);
     }
     public function logout(Request $request)
     {
@@ -46,6 +51,11 @@ class AdminController extends Controller
         if ($credentials) {
             Manager::create(["password" => Hash::make($request->password)] + $request->all());
         }
-            return redirect()->intended('adminUsers');
+            return redirect()->route('adminManagers');
+    }
+    public function deleteManager(Manager $manager)
+    {
+        $manager->delete();
+        return redirect()->route('adminManagers');
     }
 }

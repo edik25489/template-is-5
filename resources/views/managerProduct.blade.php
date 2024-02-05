@@ -31,7 +31,7 @@
                             </div>
                             <div class="mt-2">
                                 <label for="categoryLabel" class="form-label">Выберите категорию</label>
-                                <select id="categoryLabel" class="form-select">
+                                <select name="category_id" id="categoryLabel" class="form-select">
                                     <option value="1">Один</option>
                                     <option value="2">Два</option>
                                     <option value="3">Три</option>
@@ -41,7 +41,10 @@
                                 <label for="descriptionInputText" class="form-label">Описание для продукта</label>
                                 <textarea name="description" class="form-control" id="descriptionInputText" rows="5"></textarea>
                             </div>
-
+                            <div class="mt-2">
+                                <label for="exampleInputPrice" class="form-label">Цена продукта</label>
+                                <input name="price" type="number" class="form-control" id="exampleInputPrice">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="w-100 mt-3 btn btn-primary">Сохранить</button>
