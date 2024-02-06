@@ -19,9 +19,8 @@
                 Главная
             </a>
 
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-body-emphasis">Категории</a></li>
-                <li><a href="#" class="nav-link px-2 link-body-emphasis">Продукты</a></li>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 px-1">
+
                 <li><a href="#" class="nav-link px-2 link-body-emphasis">О нас</a></li>
             </ul>
 
