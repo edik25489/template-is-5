@@ -3,7 +3,7 @@
 @section('title')Авторизация пользователя@endsection
 
 @section('content')
-    <form action="{{route('login')}}">
+    <form action="{{route('login')}}" method="post">
         @csrf
         <h1 class="mt-5 h3 fw-normal">Авторизация пользователя</h1>
         <div class="mt-5">

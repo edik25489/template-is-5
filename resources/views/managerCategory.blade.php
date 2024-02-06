@@ -2,6 +2,9 @@
 @section('title')Категории@endsection
 
 @section('content')
+    <div class="container-md text-center">
+        <h3>Категории</h3>
+    </div>
     <div class="container">
 
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoryAdd">
@@ -18,7 +21,7 @@
                     <div class="modal-header">
                         <h1 class=" modal-title fs-5" id="categoryAddLabel">Добавить категорию</h1>
                     </div>
-                    <form action="{{route('categoryCreate')}}" method="post">
+                    <form action="{{route('categoryCreate')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="mt-1">
@@ -26,8 +29,8 @@
                                 <input name="name" type="text" class="form-control" id="exampleInputName">
                             </div>
                             <div class="mt-2">
-                                <label for="exampleInputImage" class="form-label">Изображение для категории</label>
-                                <input name="image" type="file" class="form-control" id="exampleInputImage">
+                                <label for="categoryInputImage" class="form-label">Изображение для категории</label>
+                                <input name="image" type="file" class="form-control" id="categoryInputImage">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -51,21 +54,27 @@
             </thead>
             <tbody>
 
-
+            @foreach($category as $item)
             <tr class="pt-2">
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+                <th scope="row">{{$item->id}}</th>
+                <td>{{$item->name}}</td>
                 <td>
-                    <button type="button" class="btn btn-danger">
+                    <img
+                        src="{{\Illuminate\Support\Facades\Storage::url($item->image)}}"
+                        class="rounded d-block"
+                        alt=""
+                        style="width: 50px; height: 50px; object-fit: contain;">
+                </td>
+                <td>
+                    <a href="{{route('categoryDelete',['category'=>$item->id])}}" class="btn btn-danger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
                         </svg>
-                    </button>
+                    </a>
                 </td>
             </tr>
-
+            @endforeach
 
 
             </tbody>

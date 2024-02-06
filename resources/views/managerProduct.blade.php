@@ -2,6 +2,9 @@
 @section('title')Продукты@endsection
 
 @section('content')
+    <div class="container-md text-center">
+        <h3>Продукты</h3>
+    </div>
     <div class="container">
 
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productAdd">
@@ -18,7 +21,7 @@
                     <div class="modal-header">
                         <h1 class=" modal-title fs-5" id="productAddLabel">Добавить продукт</h1>
                     </div>
-                    <form action="{{route('productAdd')}}" method="post">
+                    <form action="{{route('productAdd')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="mt-1">
@@ -32,9 +35,9 @@
                             <div class="mt-2">
                                 <label for="categoryLabel" class="form-label">Выберите категорию</label>
                                 <select name="category_id" id="categoryLabel" class="form-select">
-                                    <option value="1">Один</option>
-                                    <option value="2">Два</option>
-                                    <option value="3">Три</option>
+                                    @foreach($category as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mt-2">
@@ -60,18 +63,26 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Название категории</th>
+                <th scope="col">Название продукта</th>
                 <th scope="col">Изображение</th>
+                <th scope="col">Цена</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
 
-
+            @foreach($product as $item)
             <tr class="pt-2">
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+                <th scope="row">{{$item->id}}</th>
+                <td>{{$item->name}}</td>
+                <td>
+                    <img
+                        src="{{\Illuminate\Support\Facades\Storage::url($item->image)}}"
+                        class="rounded d-block"
+                        alt=""
+                        style="width: 50px; height: 50px; object-fit: contain;">
+                </td>
+                <td>{{$item->price}} руб.</td>
                 <td>
                     <button type="button" class="btn btn-danger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -81,7 +92,7 @@
                     </button>
                 </td>
             </tr>
-
+            @endforeach
 
 
             </tbody>
