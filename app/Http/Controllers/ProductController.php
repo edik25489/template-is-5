@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('managerProduct')->with([
-            'product'=>Product::all(),
+            'product'=>Product::paginate(5),
             'category'=>Category::all(),
         ]);
     }

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 // страницы
 Route::get('/',[WebController::class,'index'])->name('index');
+Route::get('/product/{product}',[WebController::class,'product'])->name('product');
 Route::get('/login',[WebController::class,'loginUser'])->name('loginUser');
 Route::get('/register',[WebController::class,'registerUser'])->name('registerUser');
 Route::get('/manager/login',[WebController::class,'loginManager'])->name('loginManager');

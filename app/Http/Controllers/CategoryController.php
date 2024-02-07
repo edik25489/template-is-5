@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,6 +27,11 @@ class CategoryController extends Controller
     public function delete(Category $category): \Illuminate\Http\RedirectResponse
     {
         Storage::disk('public')->deleteDirectory('category/'.$category->name);
+
+        foreach (Product::all()->where('category_id',$category->id) as $item){
+            $item->category_id = 1;
+            $item->save();
+        }
         $category->delete();
         return redirect()->route('managerCategory');
     }
