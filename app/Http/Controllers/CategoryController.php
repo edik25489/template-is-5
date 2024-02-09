@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use MongoDB\BSON\Regex;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -18,7 +18,9 @@ class CategoryController extends Controller
     }
     public function create(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $path = $request->file('image')->store('category/'.$request->name, 'public');
+        $path = $request
+            ->file('image')
+            ->store('/', 'public');
         Category::create([
             'name'=>$request->name,
             'image'=>$path,
@@ -27,7 +29,7 @@ class CategoryController extends Controller
     }
     public function delete(Category $category): \Illuminate\Http\RedirectResponse
     {
-        Storage::disk('public')->deleteDirectory('category/'.$category->name);
+        Storage::disk('public')->delete($category->image);
 
         foreach (Product::all()->where('category_id',$category->id) as $item){
             $item->category_id = 1;
@@ -38,17 +40,16 @@ class CategoryController extends Controller
     }
     public function edit(Category $category, Request $request){
         // обновление имени
-        Storage::disk('public')->move('/category/'.$category->name,'/category/'.$request->name);
         if ($request->has('name')){
             $category->update([
                 'name'=>$request->name,
             ]);
         }
-        // обновление изображения
 
+        // обновление изображения
         if($request->hasFile('image')){
-            $path = $request->file('image')->store('category/'.$category->name, 'public');
             Storage::disk('public')->delete($category->image);
+            $path = $request->file('image')->store('/', 'public');
             $category->update([
                 'image'=>$path,
             ]);
