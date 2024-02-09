@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use MongoDB\BSON\Regex;
 
 class CategoryController extends Controller
 {
@@ -33,6 +34,25 @@ class CategoryController extends Controller
             $item->save();
         }
         $category->delete();
+        return redirect()->route('managerCategory');
+    }
+    public function edit(Category $category, Request $request){
+        // обновление имени
+        Storage::disk('public')->move('/category/'.$category->name,'/category/'.$request->name);
+        if ($request->has('name')){
+            $category->update([
+                'name'=>$request->name,
+            ]);
+        }
+        // обновление изображения
+
+        if($request->hasFile('image')){
+            $path = $request->file('image')->store('category/'.$category->name, 'public');
+            Storage::disk('public')->delete($category->image);
+            $category->update([
+                'image'=>$path,
+            ]);
+        }
         return redirect()->route('managerCategory');
     }
 }
