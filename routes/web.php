@@ -47,6 +47,8 @@ Route::middleware('auth:user')->group(function (){
     Route::get('/user/history',[UserController::class,'userHistory'])->name('userHistory');
     // корзина
     Route::post('/cart/add/{product}',[CartController::class,'create'])->name('cartAdd');
+    Route::post('/cart/{cart}/dif',[CartController::class,'difCount'])->name('cartDifCount'); // уменьшить количество
+    Route::post('/cart/{cart}/add',[CartController::class,'addCount'])->name('cartAddCount');
     Route::post('/cart/buy/{cart}',[CartController::class,'buy'])->name('cartBuy');
     Route::post('/cart/delete/{cart}',[CartController::class,'delete'])->name('cartDelete');
     // отзывы
