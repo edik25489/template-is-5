@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('count');
             $table->integer('sum');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

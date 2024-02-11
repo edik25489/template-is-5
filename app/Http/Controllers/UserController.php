@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Cart;
 use App\Models\Manager;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -48,11 +49,15 @@ class UserController extends Controller
     }
     public function userCart(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('userCart');
+        return view('userCart')->with([
+            'cart'=>Auth::guard('user')->user()->cart->where('status','==',0),
+        ]);
     }
     public function userBuy(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('userBuy');
+        return view('userBuy')->with([
+            'buy'=>Cart::all()->where('status','>',0)->sortBy('status'),
+        ]);
     }
     public function userComment(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
@@ -60,7 +65,9 @@ class UserController extends Controller
     }
     public function userFavorites(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('userFavorites');
+        return view('userFavorites')->with([
+            'favorites'=>Auth::guard('user')->user()->favorites,
+        ]);
     }
     public function userHistory(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {

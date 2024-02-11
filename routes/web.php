@@ -57,7 +57,7 @@ Route::middleware('auth:user')->group(function (){
     Route::post('/comment/delete/{product}',[CommentController::class,'delete'])->name('commentDelete');
     // избранное
     Route::post('/favorites/add/{product}',[FavoritesController::class,'create'])->name('favoritesAdd');
-    Route::post('/favorites/delete/{product}',[FavoritesController::class,'delete'])->name('favoritesDelete');
+    Route::post('/favorites/delete/{favorites}',[FavoritesController::class,'delete'])->name('favoritesDelete');
     // история
     Route::post('/confirm/{cart}',[HistoryController::class,'create'])->name('confirmBuy');
 });
