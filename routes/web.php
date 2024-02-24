@@ -23,12 +23,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // страницы
-Route::get('/',[WebController::class,'index'])->name('index');
-Route::get('/product/{product}',[WebController::class,'product'])->name('product');
-Route::get('/login',[WebController::class,'loginUser'])->name('loginUser');
-Route::get('/register',[WebController::class,'registerUser'])->name('registerUser');
-Route::get('/manager/login',[WebController::class,'loginManager'])->name('loginManager');
-Route::get('/admin/login',[WebController::class,'loginAdmin'])->name('loginAdmin');
+Route::get('/',[WebController::class,'index'])->name('index'); // главная
+Route::get('/product/{product}',[WebController::class,'product'])->name('product'); // отдельный продукт
+Route::get('/login',[WebController::class,'loginUser'])->name('loginUser'); // авторизация пользователя
+Route::get('/register',[WebController::class,'registerUser'])->name('registerUser'); // регистрация пользователя
+Route::get('/manager/login',[WebController::class,'loginManager'])->name('loginManager');// авторизация менеджера
+Route::get('/admin/login',[WebController::class,'loginAdmin'])->name('loginAdmin');// регистрация менеджера
 
 // функции
 Route::post('/login',[UserController::class,'login'])->name('login');
@@ -40,11 +40,11 @@ Route::post('/admin/login',[AdminController::class,'login'])->name('adminLogin')
 Route::middleware('auth:user')->group(function (){
     Route::get('/logout',[UserController::class,'logout'])->name('userLogout');
     // страницы
-    Route::get('/user/cart',[UserController::class,'userCart'])->name('userCart');
-    Route::get('/user/buy',[UserController::class,'userBuy'])->name('userBuy');
-    Route::get('/user/comment',[UserController::class,'userComment'])->name('userComment');
-    Route::get('/user/favorites',[UserController::class,'userFavorites'])->name('userFavorites');
-    Route::get('/user/history',[UserController::class,'userHistory'])->name('userHistory');
+    Route::get('/user/cart',[UserController::class,'userCart'])->name('userCart'); //корзина
+    Route::get('/user/buy',[UserController::class,'userBuy'])->name('userBuy');//покупки
+    Route::get('/user/comment',[UserController::class,'userComment'])->name('userComment'); //комментарии
+    Route::get('/user/favorites',[UserController::class,'userFavorites'])->name('userFavorites');//избранное
+    Route::get('/user/history',[UserController::class,'userHistory'])->name('userHistory');//история
     // корзина
     Route::post('/cart/add/{product}',[CartController::class,'create'])->name('cartAdd');
     Route::post('/cart/{cart}/dif',[CartController::class,'difCount'])->name('cartDifCount'); // уменьшить количество
@@ -59,16 +59,16 @@ Route::middleware('auth:user')->group(function (){
     Route::post('/favorites/add/{product}',[FavoritesController::class,'create'])->name('favoritesAdd');
     Route::post('/favorites/delete/{favorites}',[FavoritesController::class,'delete'])->name('favoritesDelete');
     // история
-    Route::post('/confirm/{cart}',[HistoryController::class,'create'])->name('confirmBuy');
+    Route::post('/confirm/{cart}',[HistoryController::class,'create'])->name('delivered');
 });
 
 Route::middleware('auth:manager')->group(function (){
     Route::post('/manager/logout',[ManagerController::class,'logout'])->name('managerLogout');
     // страницы
-    Route::get('/manager/category',[CategoryController::class,'index'])->name('managerCategory');
-    Route::get('/manager/product',[ProductController::class,'index'])->name('managerProduct');
-    Route::get('/manager/buyer',[CartController::class,'buyer'])->name('managerBuyer');
-    Route::get('/manager/comment/{product}',[CommentController::class,'show'])->name('managerComment');
+    Route::get('/manager/category',[CategoryController::class,'index'])->name('managerCategory');//категории
+    Route::get('/manager/product',[ProductController::class,'index'])->name('managerProduct');//продукты
+    Route::get('/manager/buyer',[CartController::class,'buyer'])->name('managerBuyer');//покупки
+    Route::get('/manager/comment/{product}',[CommentController::class,'show'])->name('managerComment');//комментарии
 
     // функции с категориями
     Route::post('/manager/category/add',[CategoryController::class,'create'])->name('categoryCreate');
@@ -81,7 +81,8 @@ Route::middleware('auth:manager')->group(function (){
     Route::post('/manager/product/edit/{product}',[ProductController::class,'edit'])->name('productEdit');
 
     // функции с заявками на покупки
-
+    Route::post('/manager/cart/{cart}/confirm',[CartController::class,'confirm'])->name('confirm');
+    Route::post('/manager/cart/{cart}/failure',[CartController::class,'failure'])->name('failure');
     // функции с комментариями
     Route::get('/manager/comment/{product}/delete',[CommentController::class,'delete'])->name('commentDelete');
 });
@@ -90,8 +91,8 @@ Route::middleware('auth:admin')->group(function (){
     Route::post('/admin/logout',[AdminController::class,'logout'])->name('adminLogout');
 
     // страницы
-    Route::get('/admin/users',[AdminController::class,'users'])->name('adminUsers');
-    Route::get('/admin/managers',[AdminController::class,'managers'])->name('adminManagers');
+    Route::get('/admin/users',[AdminController::class,'users'])->name('adminUsers');//пользователи
+    Route::get('/admin/managers',[AdminController::class,'managers'])->name('adminManagers');//менеджеры
 
     // функции с менеджерами
     Route::post('/admin/manager/add',[AdminController::class,'createManager'])->name('createManager');

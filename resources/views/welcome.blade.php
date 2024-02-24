@@ -21,9 +21,9 @@
                                 @if(\Illuminate\Support\Facades\Auth::guard('user')->check())
                                     <div class="btn-group">
 
-                                            @if(!\Illuminate\Support\Facades\Auth::guard('user')->user()->cart->where('product_id','=',$item->id)->isEmpty())
+                                            @if(!\Illuminate\Support\Facades\Auth::guard('user')->user()->cart->where('product_id','=',$item->id)->where('status','==',0)->isEmpty())
                                             <p class="d-none">
-                                                {{$cart = \Illuminate\Support\Facades\Auth::guard('user')->user()->cart->where('product_id','==',$item->id)->first()}}
+                                                {{$cart = \Illuminate\Support\Facades\Auth::guard('user')->user()->cart->where('product_id','==',$item->id)->where('status','==',0)->first()}}
                                             </p>
                                             <form action="{{route('cartDifCount',['cart'=>$cart->id, 'currentRouteName'=> request()->route()->getName()])}}"
                                                 method="post">

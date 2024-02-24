@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BuyerResource;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class CartController extends Controller
     public function buyer(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('managerCart')->with([
-            'buyCart'=>Cart::all()->where('status','>',0)->sortBy('status'),
+            'buy'=>Cart::all()->where('status','>',0)->sortBy('status'),
         ]);
     }
     public function create(Product $product, Request $request){
@@ -49,5 +50,15 @@ class CartController extends Controller
         $cart->status = 1;
         $cart->save();
         return redirect()->route('userBuy');
+    }
+    public function confirm(Cart $cart){
+        $cart->status = 2;
+        $cart->save();
+        return redirect()->route('managerBuyer');
+    }
+    public function failure(Cart $cart){
+        $cart->status = 4;
+        $cart->save();
+        return redirect()->route('managerBuyer');
     }
 }
